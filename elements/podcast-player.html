@@ -14,6 +14,10 @@
             font-family: Roboto, sans-serif;
         }
 
+        [focused] {
+            color: blue;
+        }
+
         #progress {
             cursor: pointer;
             height: 10px;
@@ -30,7 +34,9 @@
     </style>
 
     <div id="player" layout horizontal>
-        <paper-icon-button icon="{{ playing ? 'av:pause' : 'av:play-arrow' }}"
+        <paper-icon-button
+
+            icon="{{ playing ? 'av:pause' : 'av:play-arrow' }}"
             on-tap="{{ togglePlay }}"></paper-icon-button>
 
         <paper-icon-button icon="av:replay"
