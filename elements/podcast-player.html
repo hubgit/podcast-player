@@ -1,0 +1,120 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-icons/av-icons.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../bower_components/core-icons/av-icons.html">
+
+<polymer-element name="podcast-player" attributes="src">
+<template>
+    <style>
+        :host {
+            display: block;
+            font-family: Roboto, sans-serif;
+        }
+
+        #progress {
+            cursor: pointer;
+            height: 10px;
+            margin: 6px 10px;
+        }
+
+        #duration {
+            padding: 10px;
+        }
+
+        #speed {
+            min-width: 4em;
+        }
+    </style>
+
+    <div id="player" layout horizontal>
+        <paper-icon-button icon="{{ playing ? 'av:pause' : 'av:play-arrow' }}"
+            on-tap="{{ togglePlay }}"></paper-icon-button>
+
+        <paper-icon-button icon="av:replay"
+            on-click="{{ replay }}"></paper-icon-button>
+
+        <span id="duration" flex layout horizontal>
+            <span>{{ currentTime | formatTime }}</span>
+
+            <paper-progress id="progress"
+                value="{{ currentTime }}"
+                secondaryProgesss="30"
+                max="{{ totalDuration }}"
+                flex
+                on-click="{{ seek }}"></paper-progress>
+
+            <span>{{ totalDuration | formatTime }}</span>
+        </span>
+
+        <paper-button id="speed"
+            on-click="{{ speedUp }}">{{ speeds[speed] }}x</paper-button>
+
+        <paper-icon-button icon="{{ muted ? 'av:volume-mute' : 'av:volume-up' }}"
+            on-click="{{ toggleMute }}"></paper-icon-button>
+    </div>
+
+    <audio src="{{ src }}" id="audio"
+        on-loadedmetadata="{{ metadataLoaded }}"
+        on-timeupdate="{{ timeUpdated }}"></audio>
+</template>
+
+<script>
+Polymer({
+    playing: false,
+    muted: false,
+    speed: 0,
+    speeds: [1, 1.5, 2, 2.5, 3],
+    totalDuration: 0,
+    currentTime: 0,
+    metadataLoaded: function(event, details, sender) {
+        this.totalDuration = Math.floor(sender.duration);
+    },
+    timeUpdated: function(event, details, sender) {
+        this.currentTime = sender.currentTime;
+    },
+    togglePlay: function() {
+        this.$.audio[this.playing ? 'pause' : 'play']();
+        this.playing = !this.playing;
+    },
+    toggleMute: function() {
+        this.$.audio.muted = this.muted = !this.muted;
+    },
+    replay: function() {
+        this.$.audio.currentTime -= 30;
+    },
+    speedUp: function() {
+        this.speed = (this.speed + 1) % this.speeds.length;
+        this.$.audio.playbackRate = this.speeds[this.speed];
+    },
+    seek: function(event, details, sender) {
+        this.$.audio.currentTime = this.currentTime = Math.floor(this.$.audio.duration) * (event.offsetX / sender.offsetWidth);
+    },
+    formatTime: function (totalSecs) {
+        var secNum = parseInt(totalSecs, 10); // don't forget the second param
+        var hours = Math.floor(secNum / 3600);
+        var minutes = Math.floor((secNum - (hours * 3600)) / 60);
+        var seconds = secNum - (hours * 3600) - (minutes * 60);
+
+        if (hours < 10) {
+            hours = '0' + hours;
+        }
+
+        if (minutes < 10) {
+            minutes = '0' + minutes;
+        }
+
+        if (seconds < 10) {
+            seconds = '0' + seconds;
+        }
+
+        hours = hours > 0 ? hours + ':' : '';
+        minutes = minutes + ':';
+
+        return hours + minutes + seconds;
+    }
+})
+</script>
+</polymer-element>
