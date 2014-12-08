@@ -1,6 +1,6 @@
 # podcast-player
 
-![Screenshot of podcast-player](https://s3.amazonaws.com/f.cl.ly/items/3Q47193Z0f00142R0O42/1d0pzyOUeVH2-d1m77Vxx9QkL0vexZ5bJNbyEGRCfbY.png)
+![Screenshot of podcast-player](screenshot.png)
 
 ```
 <podcast-player src="my.mp3"></podcast-player>
