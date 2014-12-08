@@ -18,17 +18,15 @@ A web component for audio podcasts. It has a few features that make it most suit
 
 ## Usage
 
-To get started, you'll need a copy of `webcomponents.js`. Either [link from CDNjs](https://cdnjs.com/libraries/webcomponentsjs) or
-
 ```
-bower install webcomponentsjs
+bower install podcast-player
 ```
 
 Include `webcomponents.min.js` and `podcast-player.html` in the `<head>` of your episode page:
 
 ```
-<script src="webcomponents.min.js"></script>
-<link rel="import" href="podcast-player.html"/>
+<script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<link rel="import" href="bower_components/podcast-player/elements/podcast-player.html">
 ```
 
 Then in the body of your post, invoke the custom component using the `<podcast-player>` element.
@@ -49,8 +47,3 @@ python -m SimpleHTTPServer
 ```
 
 If you have questions about web components, read up on them at [webcomponents.org](http://webcomponents.org/).
-
-## Download, Fork, Commit
-If you like to contribue, please feel free to fork the repo. If you created a brand new feature, I recommend discussing it in an issue first rather wasting your whole weekend working on it, then Hail Mary'ing it my way.
-
-If you're reporting a bug, you'd better have an editable reduced test case on a CodePen or GTFO. Sorry, thems the brakes. I got kids.
